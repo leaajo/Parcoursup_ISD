@@ -25,9 +25,11 @@ from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
 
 sns.axes_style(style=None, rc=None);
 
+url1 = "https://raw.githubusercontent.com/leaajo/TP_ISD/all_df/fr-en-adresse-et-geolocalisation-etablissements-premier-et-second-degre.csv"
+url2 = "https://raw.githubusercontent.com/leaajo/TP_ISD/all_df/fr-en-lycee_gt-effectifs-niveau-sexe-lv.csv"
 
-tous_les_etablissements = pd.read_csv(r'C:\Users\leaaj\TP_ISD\all_df\fr-en-adresse-et-geolocalisation-etablissements-premier-et-second-degre.csv', sep=';')
-lycees = pd.read_csv(r'C:\Users\leaaj\TP_ISD\all_df\fr-en-lycee_gt-effectifs-niveau-sexe-lv.csv', sep=";")
+tous_les_etablissements = pd.read_csv(url1, sep=";")
+lycees = pd.read_csv(url2, sep = ';')
 
 lycees_2 = lycees.copy()
 lycees_2 = lycees_2.merge(tous_les_etablissements, left_on="numero_lycee", right_on="numero_uai")
@@ -50,7 +52,9 @@ geo_lycee = gpd.GeoDataFrame(
 
 geo_lycee_metropole = geo_lycee[(geo_lycee['latitude'] > 40) &
                                 (geo_lycee['longitude']> -10)]
-donnees_france = gpd.read_file(r"C:\Users\leaaj\TP_ISD\donnees_geo\metropole.geojson")
+
+url3 = "https://raw.githubusercontent.com/leaajo/TP_ISD/all_df/metropole.geojson"
+donnees_france = gpd.read_file(url3)
 
 # Créer une figure et des axes
 fig, ax = plt.subplots(figsize=(10, 10))
