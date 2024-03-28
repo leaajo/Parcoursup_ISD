@@ -55,27 +55,11 @@ ax.set_title("Répartition des lycées en France métropolitaine")
 
 plt.show()
 
-import plotly.express as px
-import matplotlib.cm as cm
 
-import geoviews as gv
-import geoviews.feature as gf
-gv.extension('bokeh')
-
-from cartopy import crs
-
-url7 = "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-version-simplifiee.geojson"
-france_departements = gpd.read_file(url7)
-france_departements['code_du_departement'] = "0" + france_departements['code']
-france_departements = france_departements.drop(columns='code')
-
-taux_res_dep0 = france_departements.merge(lycees_2, left_on='code_du_departement', right_on= 'code_departement', suffixes = ('', '_y'))
-taux_res_dep = taux_res_dep0.merge(lycees_2, left_on='numero_uai', right_on='cod_uai', suffixes = ('', '_y'))
-
-import holoviews as hv
-from holoviews import dim, opts
-hv.extension('bokeh')
-
-regions = gv.Polygons(taux_res_dep, vdims=['nom', 'code_du_departement', 'academie', 'taux_reu_brut_gnle', 'taux_men_brut_gnle'])
-
-regions.opts(width=600, height=600, toolbar='above', color=dim('taux_reu_brut_gnle'), colorbar=True, tools=['hover'], aspect='equal')
+#
+#
+# Sauvegarder le DataFrame lycee_2 dans un fichier CSV
+lycees_2.to_csv('lycees_2.csv', index=False)
+#
+#
+#
