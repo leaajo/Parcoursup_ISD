@@ -38,11 +38,14 @@ def traitement_des_donnees(annee=int):
     #
     #
     lycees_avec_sup = parcoursup.copy()
-    mask = parcoursup["g_ea_lib_vx"].str.contains("Lycée", case=False)  # Ignore la casse
-    
-    lycees_avec_sup = lycees_avec_sup[mask] # On ne garde que les lycées
-    lycees_avec_sup = lycees_avec_sup.reset_index(drop=True) # On réindexe
-    #
+    i = 0
+    retirer = []
+    for s in parcoursup["Établissement"] :
+        if "Lycée" not in s :
+             retirer.append(i)
+        i+=1
+    lycees_avec_sup = lycees_avec_sup.drop(retirer, axis=0)
+    lycees_avec_sup = lycees_avec_sup.reset_index(drop=True)
     #
     #
     # A continuer
@@ -50,7 +53,5 @@ def traitement_des_donnees(annee=int):
     #
     #
     return list(set(list(lycees_avec_sup['fili'])))
-
-    
 
 print(traitement_des_donnees(2021))
