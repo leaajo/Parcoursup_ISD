@@ -35,6 +35,7 @@ geo_lycee = gpd.GeoDataFrame(
     lycees_2, crs="EPSG:4326", geometry=geometry
 )
 
+# On garde que les données en France métropolitaine
 geo_lycee_metropole = geo_lycee[(geo_lycee['latitude'] > 40) &
                                 (geo_lycee['longitude']> -10)]
 
