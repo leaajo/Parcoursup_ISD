@@ -4,20 +4,8 @@ import pandas as pd
 annee_2021 = pd.read_csv(r'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-esr-parcoursup_2021.csv', sep=';')
 annee_2023 = pd.read_csv(r'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-esr-parcoursup.csv', sep=';')
 annee_2022 = pd.read_csv(r'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-esr-parcoursup_2022.csv', sep=';')
-annee_2023_2 = pd.read_csv(r'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-esr-parcoursup_2023_avec_les_noms.csv', sep=';')
 
 
-annee_2023_2_ordered = annee_2023_2.set_index('Session').loc[annee_2023['session']].reset_index()
-
-annee_2023_2_ordered.to_csv('annee_2023_2_ordered', axis=0)
-
-# Supposons que `annee_2023` et `annee_2023_aveclesnomsdesvariablesdeannee_2022` sont vos DataFrames
-
-# Trier `annee_2023_aveclesnomsdesvariablesdeannee_2022` en utilisant l'ordre de `annee_2023`
-#colonne_commune = 'session'  
-#annee_2022_ordered = annee_2023_aveclesnomsdesvariablesdeannee_2022.set_index(colonne_commune).loc[annee_2023[colonne_commune]].reset_index()
-
-
-# Concaténer les deux DataFrames alignés
-#parcoursup_total = pd.concat([annee_2022_ordered, deux_ans], ignore_index=True)
-#parcoursup_total.to_csv('parcoursup_total.csv', index=False)    
+# Concatenate annee_2021 and annee_2023 along their columns
+parcoursup_2021_2023 = pd.concat([annee_2021, annee_2023], axis=1)
+parcoursup_2021_2023.to_csv('parcoursup_2021_2023.csv', sep=';', index=False)
