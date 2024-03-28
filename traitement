@@ -10,6 +10,53 @@ from bokeh.transform import cumsum
 def traitement_des_donnees(annee=int):
     # Importation des données
     parcoursup = pd.read_csv(r'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-esr-parcoursup.csv', sep=';')
-    parcoursup = parcoursup[parcoursup['session'] == annee]
-    return 0
+    parcoursup = parcoursup[parcoursup['session'] == annee] # On ne garde que les données de l'année demandée
+    
+    # On passe certaines variables en string pour mieux les manipuler
+    for col in ["cod_uai",                          # code de l'établissement
+                "g_ea_lib_vx",                      # Nom de l'établissement
+                "dep",                              # Département numéro
+                "dep_lib",                          # Nom du département
+                "region_etab_aff",                  # Région de l'établissement
+                "acad_mies",                        # Académie
+                "ville_etab",                       # Ville de l'établissement  
+                "lib_for_voe_ins",                  # Filière de formation (Domaine + type :BTS, DUT, CPGE, ...+ Bac demandé)
+                "select_form",                      # Sélectivité ou non
+                "fili",                             # Filière de formation très agrégée (Ecole d'ingénieur, BUT, DUT...)
+                "lib_comp_voe_ins",                 # Filière de formation détaillée bis (Exemple : Concours Puissance Alpha - Formation d'ingénieur Bac + 5 - Bacs généraux - 2 Sciences)
+                "form_lib_voe_acc",                 # Domaine de formation (Exemple : BTS - Agricole, Formation des écoles d'ingénieurs,...)
+                "fil_lib_voe_acc",                  # Filière de formation très détaillée (Exemple : Métiers de l'audio-visuel opt : métiers de l'image)
+                "detail_forma",                     # Tri : Bac demandé
+                "g_olocalisation_des_formations"    # Localisation : latitude et longitude séparés par une virgule
+                ]: 
+        parcoursup[col] = parcoursup[col].astype('string')  # On passe les variables en string
+    #
+    #
+    #    
+    # On sélectionne que les lycées maitenant :
+    #
+    #
+    #
+    lycees_avec_sup = parcoursup.copy()
+    i = 0
+    
+    retirer = []
+    for s in parcoursup["g_ea_lib_vx"] : # Nom de l'établissement
+        if "Lycée" not in s :
+            retirer.append(i)
+        i += 1
+            
+    lycees_avec_sup = lycees_avec_sup.drop(retirer, axis=0) # On retire les lignes qui ne sont pas des lycées
+    lycees_avec_sup = lycees_avec_sup.reset_index(drop=True) # On réindexe
+    #
+    #
+    #
+    # A continuer
+    #
+    #
+    #
+    return list(set(list(lycees_avec_sup['fili'])))
 
+    
+
+print(traitement_des_donnees(2022))
