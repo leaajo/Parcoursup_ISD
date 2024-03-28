@@ -1,0 +1,15 @@
+# Importation des modules
+from math import pi
+import pandas as pd
+import matplotlib.pyplot as plt
+import plotly.express as px
+from bokeh.palettes import Category20c
+from bokeh.plotting import figure, show
+from bokeh.transform import cumsum
+    
+def traitement_des_donnees(annee=int):
+    # Importation des données
+    parcoursup = pd.read_csv(r'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-esr-parcoursup.csv', sep=';')
+    parcoursup = parcoursup[parcoursup['session'] == annee]
+    return 0
+
