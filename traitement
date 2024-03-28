@@ -9,7 +9,7 @@ from bokeh.transform import cumsum
     
 def traitement_des_donnees(annee=int):
     # Importation des données
-    parcoursup = pd.read_csv(r'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/parcoursup_total.csv', sep=';')
+    parcoursup = pd.read_csv(r'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/parcoursup_total.csv', sep=',', low_memory=False)
     parcoursup = parcoursup[parcoursup['session'] == annee] # On ne garde que les données de l'année demandée
     
     # On passe certaines variables en string pour mieux les manipuler
