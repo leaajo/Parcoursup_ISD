@@ -9,8 +9,8 @@ from bokeh.transform import cumsum
     
 def traitement_des_donnees(annee=int):
     # Importation des données
-    parcoursup = pd.read_csv(r'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/parcoursup_2021_2023.csv', sep=',')
-    parcoursup = parcoursup[parcoursup['session'] == annee] # On ne garde que les données de l'année demandée
+    url = f'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/parcoursup_{annee}.csv'
+    parcoursup = pd.read_csv(url, sep=';')
     
     # On passe certaines variables en string pour mieux les manipuler
     for col in ["cod_uai",                          # code de l'établissement
