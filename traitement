@@ -54,4 +54,4 @@ def traitement_des_donnees(annee=int):
     #
     return list(set(list(lycees_avec_sup['fili'])))
 
-print(traitement_des_donnees(2021))
+print(traitement_des_donnees(2023))
