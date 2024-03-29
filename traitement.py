@@ -8,8 +8,18 @@ from bokeh.plotting import figure, show
 from bokeh.transform import cumsum
     
 def traitement_des_donnees(annee=int):
+    
+    # Importation des modules
+    from math import pi
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    import plotly.express as px
+    from bokeh.palettes import Category20c
+    from bokeh.plotting import figure, show
+    from bokeh.transform import cumsum
+
     # Importation des données
-    url = f'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/parcoursup_{annee}.csv'
+    url = f'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-esr-parcoursup_{annee}.csv'
     parcoursup = pd.read_csv(url, sep=';')
     
     # On passe certaines variables en string pour mieux les manipuler
@@ -40,7 +50,7 @@ def traitement_des_donnees(annee=int):
     lycees_avec_sup = parcoursup.copy()
     i = 0
     retirer = []
-    for s in parcoursup["Établissement"] :
+    for s in parcoursup["g_ea_lib_vx"] :
         if "Lycée" not in s :
              retirer.append(i)
         i+=1
@@ -48,10 +58,32 @@ def traitement_des_donnees(annee=int):
     lycees_avec_sup = lycees_avec_sup.reset_index(drop=True)
     #
     #
-    # A continuer
+    # On crée des données géométriques à partir de la variable "g_olocalisation_des_formations"
     #
     #
     #
-    return list(set(list(lycees_avec_sup['fili'])))
+    lycees_avec_sup_2 = lycees_avec_sup.copy()
+    latitude = []
+    longitude = []
 
-print(traitement_des_donnees(2023))
+    for val in lycees_avec_sup["g_olocalisation_des_formations"]:
+       if pd.notna(val):  # Vérifier si la valeur n'est pas manquante
+            try:
+                lat, lon = val.split(',')
+                latitude.append(float(lat.strip()))  # Convertir en float et extraire la latitude
+                longitude.append(float(lon.strip()))  # Convertir en float et extraire la longitude
+            except ValueError:
+                latitude.append(None)  # Ajouter None si la valeur ne peut pas être divisée
+                longitude.append(None)  # Ajouter None si la valeur ne peut pas être divisée
+       else:
+            latitude.append(None)  # Ajouter None si la valeur est manquante
+            longitude.append(None)  # Ajouter None si la valeur est manquante
+            
+    lycees_avec_sup_2["latitude"] = latitude
+    lycees_avec_sup_2["longitude"] = longitude
+
+    lycees_avec_sup_2 = lycees_avec_sup_2.drop(columns = ['g_olocalisation_des_formations', 'dep', 'dep_lib', 'region_etab_aff', 'ville_etab'])
+    
+    return lycees_avec_sup_2
+
+print(traitement_des_donnees(2021))
