@@ -3,9 +3,6 @@ from math import pi
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
-from bokeh.palettes import Category20c
-from bokeh.plotting import figure, show
-from bokeh.transform import cumsum
     
 def traitement_des_donnees(annee=int):
     
@@ -14,9 +11,6 @@ def traitement_des_donnees(annee=int):
     import pandas as pd
     import matplotlib.pyplot as plt
     import plotly.express as px
-    from bokeh.palettes import Category20c
-    from bokeh.plotting import figure, show
-    from bokeh.transform import cumsum
 
     # Importation des données
     url = f'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-esr-parcoursup_{annee}.csv'
