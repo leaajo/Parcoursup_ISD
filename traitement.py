@@ -11,6 +11,7 @@ def traitement_des_donnees(annee=int):
     import pandas as pd
     import matplotlib.pyplot as plt
     import plotly.express as px
+    import numpy as np
 
     # Importation des données
     url = f'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-esr-parcoursup_{annee}.csv'
@@ -77,7 +78,70 @@ def traitement_des_donnees(annee=int):
     lycees_avec_sup_2["longitude"] = longitude
 
     lycees_avec_sup_2 = lycees_avec_sup_2.drop(columns = ['g_olocalisation_des_formations', 'dep', 'dep_lib', 'region_etab_aff', 'ville_etab'])
+    #
+    #
+    #
+    # On traite l'IPS avant de l'ajouter au dataframe
+    #
+    #
+    #
+    val_aj_df=pd.read_csv('https://raw.githubusercontent.com/leaajo/TP_ISD/all_df/fr-en-indicateurs-de-resultat-des-lycees-denseignement-general-et-technologique.csv', sep=";")
+    val_aj_df = val_aj_df[val_aj_df["annee"] == annee] # On prend que les données de l'année choisie
+
+    liste_val = ['code_etablissement', 'taux_brut_de_reussite_total_series', 'taux_reussite_attendu_acad_total_series', 'taux_reussite_attendu_france_total_series',
+         'taux_mention_attendu_toutes_series', 'pourcentage_bacheliers_sortants_2de_1re_term_etab', 'pourcentage_bacheliers_sortants_terminales_etab',
+         'pourcentage_bacheliers_sortants_2de_1re_term_acad', 'pourcentage_bacheliers_sortants_terminales_acad', 'pourcentage_bacheliers_sortants_2de_1re_term_france',
+         'pourcentage_bacheliers_sortants_terminales_france', 'taux_acces_brut_seconde_bac', 'taux_acces_attendu_acad_seconde_bac', 'taux_acces_attendu_france_seconde_bac',
+         'taux_acces_brut_premiere_bac', 'taux_acces_attendu_acad_premiere_bac', 'taux_acces_attendu_france_premiere_bac', 'taux_acces_brut_terminale_bac',
+         'taux_acces_attendu_france_terminale_bac', 'va_reu_total', 'va_acc_seconde', 'va_men_total', 'presents_gnle', 'taux_reu_brut_gnle', 'va_reu_gnle',
+         'taux_men_brut_gnle', 'va_men_gnle', 'nombre_de_mentions_tb_avec_felicitations_g', 'nombre_de_mentions_tb_sans_felicitations_g', 'nombre_de_mentions_b_g',
+         'nombre_de_mentions_ab_g', 'nombre_de_mentions_tb_avec_felicitations_t', 'nombre_de_mentions_tb_sans_felicitations_t', 'nombre_de_mentions_b_t',
+         'nombre_de_mentions_ab_t']
+    val_aj_df = val_aj_df.filter(liste_val, axis=1)
     
-    return lycees_avec_sup_2
+    # On renomme les colonnes pour les fusionner puis on les supprime
+    val_aj_df['nombre_de_mentions_tb_g'] = val_aj_df['nombre_de_mentions_tb_avec_felicitations_g'] + val_aj_df['nombre_de_mentions_tb_sans_felicitations_g']
+    val_aj_df['nombre_de_mentions_tb_t'] = val_aj_df['nombre_de_mentions_tb_avec_felicitations_t'] + val_aj_df['nombre_de_mentions_tb_sans_felicitations_t']
+    val_aj_df.pop('nombre_de_mentions_tb_avec_felicitations_g')
+    val_aj_df.pop('nombre_de_mentions_tb_sans_felicitations_g')
+    val_aj_df.pop('nombre_de_mentions_tb_avec_felicitations_t')
+    val_aj_df.pop('nombre_de_mentions_tb_sans_felicitations_t')
+    
+
+    # On supprime les variables vides (donc inutiles)
+    null = val_aj_df.isnull()
+    val_aj_df1 = val_aj_df.copy()
+    for col in val_aj_df.columns :  
+        if list(set(list(null[col]))) == [True] :
+             val_aj_df1.pop(col)
+
+    # On change le type du code établissement car on va fusionner les dataframes
+    val_aj_df1['code_etablissement'] = val_aj_df1['code_etablissement'].astype('string')
+    val_aj_df1 = val_aj_df1.dropna(axis=0, subset="presents_gnle")
+
+    # Pour éviter les bugs, on remplace les valeurs manquantes par des 0.0 ou des NaN et on passe en float
+    liste = ["taux_acces_brut_seconde_bac", "va_reu_total", "va_acc_seconde", "va_men_total", "presents_gnle", "va_reu_gnle", "va_men_gnle"]
+    val_aj_df2 = val_aj_df1.copy()
+    for var in liste :
+         val_aj_df2[var] = val_aj_df2[var].replace('.', '0.0')
+         val_aj_df2[var] = val_aj_df2[var].replace('ND', np.NaN)
+    val_aj_df2 = val_aj_df2.dropna(axis=0, subset = liste)
+
+    for var in liste :
+        val_aj_df2[var] = val_aj_df2[var].astype('float')
+    #
+    #
+    #
+    # On traite la valeur ajoutée (VA) avant de l'ajouter au dataframe
+    #
+    #
+    #
+    ips = pd.read_csv('https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-en-ips_lycees.csv', sep=";")
+    annee_scolaire = f"{annee-1} - {annee}" # On prend l'année scolaire précédente
+    ips = ips[ips["Rentrée scolaire"] == annee_scolaire] # On prend que les données de l'année choisie
+
+    return ips
+
+
 
 print(traitement_des_donnees(2021))
