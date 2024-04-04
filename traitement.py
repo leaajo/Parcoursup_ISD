@@ -85,7 +85,7 @@ def traitement_des_donnees(annee=int):
     #
     #
     #
-    val_aj_df=pd.read_csv('https://raw.githubusercontent.com/leaajo/TP_ISD/all_df/fr-en-indicateurs-de-resultat-des-lycees-denseignement-general-et-technologique.csv', sep=";")
+    val_aj_df=pd.read_csv('https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-en-indicateurs-de-resultat-des-lycees-denseignement-general-et-technologique.csv', sep=";", low_memory=False)
     val_aj_df = val_aj_df[val_aj_df["annee"] == annee] # On prend que les données de l'année choisie
 
     liste_val = ['code_etablissement', 'taux_brut_de_reussite_total_series', 'taux_reussite_attendu_acad_total_series', 'taux_reussite_attendu_france_total_series',
@@ -129,19 +129,37 @@ def traitement_des_donnees(annee=int):
 
     for var in liste :
         val_aj_df2[var] = val_aj_df2[var].astype('float')
-    #
-    #
-    #
-    # On traite la valeur ajoutée (VA) avant de l'ajouter au dataframe
-    #
-    #
-    #
-    ips = pd.read_csv('https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-en-ips_lycees.csv', sep=";")
-    annee_scolaire = f"{annee-1} - {annee}" # On prend l'année scolaire précédente
-    ips = ips[ips["Rentrée scolaire"] == annee_scolaire] # On prend que les données de l'année choisie
 
-    return ips
+    # On fusionne les dataframes
+    lycees_avec_sup_3 = lycees_avec_sup_2.merge(val_aj_df2, left_on='cod_uai', right_on='code_etablissement', how='left')
+
+    #
+    #
+    #
+    # On traite l'IPS avant de l'ajouter au dataframe
+    #
+    #
+    #
+    if annee == 2021 :
+        ips = pd.read_csv('https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-en-ips_lycees.csv', sep=";")
+        ips_df = ips[ips["Rentrée scolaire"] == '2020-2021'] # On prend que les données de l'année choisie
+        liste_ips = ['UAI', 'IPS voie GT', 'IPS voie PRO', 'IPS Ensemble GT-PRO', 'Ecart-type de l\'IPS voie GT', 'Ecart-type de l\'IPS voie PRO']
+        ips_df1 = ips_df.filter(liste_ips, axis=1)
+        ips_df1["UAI"] = ips_df1["UAI"].astype("string")
+        # On fusionne les dataframes pour avoir les IPS :
+        lycees_avec_sup_4 = lycees_avec_sup_3.copy()
+        lycees_avec_sup_4 = lycees_avec_sup_4.merge(ips_df1, left_on="cod_uai", right_on="UAI")
+    
+    if annee == 2023 :
+        ips = pd.read_csv('https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-en-ips-lycees-ap2022.csv', sep=";")
+        ips_df = ips[ips["rentree_scolaire"] == '2022-2023']
+        liste_ips = ['uai', 'ips_voie_gt', 'ips_voie_pro', 'ips_ensemble_gt_pro', 'ecart_type_ips_voie_gt', 'ecart_type_ips_voie_pro']
+        ips_df1 = ips_df.filter(liste_ips, axis=1)
+        ips_df1["uai"] = ips_df1["uai"].astype("string")
+        lycees_avec_sup_4 = lycees_avec_sup_3.copy()
+        lycees_avec_sup_4 = lycees_avec_sup_4.merge(ips_df1, left_on="cod_uai", right_on="uai")
 
 
+    return lycees_avec_sup_4
 
 print(traitement_des_donnees(2021))
