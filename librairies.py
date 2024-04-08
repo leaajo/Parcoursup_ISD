@@ -26,9 +26,3 @@ from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
 
 import plotly.express as px
 import matplotlib.cm as cm
-
-import geoviews as gv
-import geoviews.feature as gf
-gv.extension('bokeh')
-
-from cartopy import crs

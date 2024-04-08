@@ -3,18 +3,12 @@ from math import pi
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
+import numpy as np
     
 def traitement_des_donnees(annee=int):
-    
-    # Importation des modules
-    from math import pi
-    import pandas as pd
-    import matplotlib.pyplot as plt
-    import plotly.express as px
-    import numpy as np
 
     # Importation des données
-    url = f'https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-esr-parcoursup_{annee}.csv'
+    url = f'./all_df/fr-esr-parcoursup_{annee}.csv'
     parcoursup = pd.read_csv(url, sep=';')
     
     # On passe certaines variables en string pour mieux les manipuler
@@ -85,7 +79,7 @@ def traitement_des_donnees(annee=int):
     #
     #
     #
-    val_aj_df=pd.read_csv('https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-en-indicateurs-de-resultat-des-lycees-denseignement-general-et-technologique.csv', sep=";", low_memory=False)
+    val_aj_df=pd.read_csv('./all_df/fr-en-indicateurs-de-resultat-des-lycees-denseignement-general-et-technologique.csv', sep=";", low_memory=False)
     val_aj_df = val_aj_df[val_aj_df["annee"] == annee] # On prend que les données de l'année choisie
 
     liste_val = ['code_etablissement', 'taux_brut_de_reussite_total_series', 'taux_reussite_attendu_acad_total_series', 'taux_reussite_attendu_france_total_series',
@@ -132,7 +126,6 @@ def traitement_des_donnees(annee=int):
 
     # On fusionne les dataframes
     lycees_avec_sup_3 = lycees_avec_sup_2.merge(val_aj_df2, left_on='cod_uai', right_on='code_etablissement', how='left')
-
     #
     #
     #
@@ -141,17 +134,19 @@ def traitement_des_donnees(annee=int):
     #
     #
     if annee == 2021 :
-        ips = pd.read_csv('https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-en-ips_lycees.csv', sep=";")
+        ips = pd.read_csv('./all_df/fr-en-ips_lycees.csv', sep=";")
         ips_df = ips[ips["Rentrée scolaire"] == '2020-2021'] # On prend que les données de l'année choisie
         liste_ips = ['UAI', 'IPS voie GT', 'IPS voie PRO', 'IPS Ensemble GT-PRO', 'Ecart-type de l\'IPS voie GT', 'Ecart-type de l\'IPS voie PRO']
+        nouveau_noms = {'UAI': 'uai', 'IPS voie GT': 'ips_voie_gt', 'IPS voie PRO': 'ips_voie_pro', 'IPS Ensemble GT-PRO': 'ips_ensemble_gt_pro', "Ecart-type de l'IPS voie GT": 'ecart_type_ips_voie_gt', "Ecart-type de l'IPS voie PRO": 'ecart_type_ips_voie_pro'}
         ips_df1 = ips_df.filter(liste_ips, axis=1)
         ips_df1["UAI"] = ips_df1["UAI"].astype("string")
         # On fusionne les dataframes pour avoir les IPS :
         lycees_avec_sup_4 = lycees_avec_sup_3.copy()
         lycees_avec_sup_4 = lycees_avec_sup_4.merge(ips_df1, left_on="cod_uai", right_on="UAI")
+        lycees_avec_sup_4.rename(columns=nouveau_noms, inplace=True)
     
     if annee == 2023 :
-        ips = pd.read_csv('https://raw.githubusercontent.com/leaajo/TP_ISD/master/all_df/fr-en-ips-lycees-ap2022.csv', sep=";")
+        ips = pd.read_csv('./all_df/fr-en-ips-lycees-ap2022.csv', sep=";")
         ips_df = ips[ips["rentree_scolaire"] == '2022-2023']
         liste_ips = ['uai', 'ips_voie_gt', 'ips_voie_pro', 'ips_ensemble_gt_pro', 'ecart_type_ips_voie_gt', 'ecart_type_ips_voie_pro']
         ips_df1 = ips_df.filter(liste_ips, axis=1)
