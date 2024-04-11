@@ -26,3 +26,5 @@ from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
 
 import plotly.express as px
 import matplotlib.cm as cm
+
+import geoviews as gv 
