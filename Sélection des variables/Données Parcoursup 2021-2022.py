@@ -3,7 +3,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-lycee_df = pd.read_csv(r'Sélection des données\Jeux de données\fr-esr-parcoursup_2022.csv', sep=";")
+lycee_df = pd.read_csv('./all_df/fr-esr-parcoursup_2022.csv', sep=";")
 
 liste = ["Session", "Statut de l’établissement de la filière de formation (public, privé…)", "Code UAI de l'établissement", "Établissement", "Département de l’établissement", "Région de l’établissement",
                          "Académie de l’établissement", "Commune de l’établissement", "Filière de formation", "Sélectivité",
@@ -84,4 +84,4 @@ lycee_df2.pop("region_etab_aff")
 lycee_df2.pop("dep_lib")
 lycee_df2 = pd.get_dummies(lycee_df2, columns=["contrat_etab", "acad_mies"], drop_first=True)
 
-lycee_df2 = lycee_df2.to_csv(r'Sélection des données\lycee_df2', sep=";")
+lycee_df2 = lycee_df2.to_csv('./Sélection des variables/df_inter/lycee_df2', sep=";")
