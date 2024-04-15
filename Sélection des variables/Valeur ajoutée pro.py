@@ -1,6 +1,6 @@
 import pandas as pd 
 import numpy as np
-val_aj_pro = pd.read_csv(r"Sélection des données\Jeux de données\fr-en-indicateurs-de-resultat-des-lycees-denseignement-professionnels.csv", sep=";")
+val_aj_pro = pd.read_csv('./all_df/fr-en-indicateurs-de-resultat-des-lycees-denseignement-professionnels.csv', sep=";")
 val_aj_pro = val_aj_pro[val_aj_pro["annee"]==2021]
 var = ["code_etablissement", "taux_brut_de_reussite_total_secteurs","taux_acces_brut_seconde_bac", 
        "taux_acces_brut_premiere_bac", "taux_acces_brut_terminale_bac", "va_reu_total", "va_acc_seconde",  "va_acc_premiere", 
@@ -26,4 +26,4 @@ val_aj_pro = val_aj_pro.rename({"taux_brut_de_reussite_total_secteurs" : "taux_b
        "taux_brut_de_mentions_total_secteurs" : "taux_brut_de_mentions_total_secteurs_p"}, axis='columns')
 val_aj_pro = val_aj_pro.dropna(axis=0)
 val_aj_pro.info()
-val_aj_pro.to_csv(r"Sélection des données\val_aj_pro", sep=";")
+val_aj_pro.to_csv('./Sélection des variables/df_inter/val_aj_pro', sep=";")

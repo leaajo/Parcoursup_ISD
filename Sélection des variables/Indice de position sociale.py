@@ -1,5 +1,5 @@
 import pandas as pd 
-ips = pd.read_csv('https://raw.githubusercontent.com/Bleunvenn/TP_ISD/master/all_df/fr-en-ips_lycees.csv', sep=";")
+ips = pd.read_csv('./all_df/fr-en-ips_lycees.csv', sep=";")
 ips_df = ips[ips["Rentrée scolaire"] == '2021-2022']
 
 #Sélection des variables
@@ -11,4 +11,4 @@ ips_df1["UAI"] = ips_df1["UAI"].astype("string")
 
 ips_df1.info()
 
-ips_df1 = ips_df1.to_csv("ips_df1", sep=";")
+ips_df1 = ips_df1.to_csv('./Sélection des variables/df_inter/ips_df1', sep=";")

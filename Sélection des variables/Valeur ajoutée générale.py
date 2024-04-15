@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-val_aj_df=pd.read_csv(r'Sélection des données\Jeux de données\fr-en-indicateurs-de-resultat-des-lycees-denseignement-general-et-technologique.csv', sep=";")
+val_aj_df=pd.read_csv('./all_df/fr-en-indicateurs-de-resultat-des-lycees-denseignement-general-et-technologique.csv', sep=";")
 X = val_aj_df.columns.to_list()
 for x in X :
   print(x)
@@ -56,4 +56,4 @@ val_aj_df2["lycee_gnle_et_tech"] = [1]*val_aj_df2.shape[0]
 
 val_aj_df2.info()
 
-val_aj_df2 = val_aj_df2.to_csv(r'Sélection des données\val_aj_gnle', sep=";")
+val_aj_df2 = val_aj_df2.to_csv('./Sélection des variables/df_inter/val_aj_gnle', sep=";")

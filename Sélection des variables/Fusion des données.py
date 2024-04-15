@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 
 lycee_df2 = pd.read_csv('./Sélection des variables/df_inter/lycee_df2', sep=";")
-val_aj_df2 = pd.read_csv('./all_df/fr-en-indicateurs-de-resultat-des-lycees-denseignement-general-et-technologique.csv', sep=";")
-ips_df1 = pd.read_csv('.all_df/fr-en-ips_lycees.csv', sep=";")
+val_aj_df2 = pd.read_csv('./Sélection des variables/df_inter/val_aj', sep=";")
+ips_df1 = pd.read_csv('./Sélection des variables/df_inter/ips_df1', sep=";")
 lycee_df3 = lycee_df2.copy()
 lycee_df3 = lycee_df3.merge(val_aj_df2, left_on="code_uai", right_on="code_etablissement")
 
@@ -28,5 +28,5 @@ lycee_df5 = lycee_df4.copy()
 lycee_df5 = lycee_df5.select_dtypes(exclude=[object])
 lycee_df5 = lycee_df5.drop(["Unnamed: 0_x", "Unnamed: 0_y", "Unnamed: 0"], axis=1)
 lycee_df5.info()
-lycee_df5 = lycee_df5.to_csv('./Sélection des données/df_inter/lycee_df5', sep=";")
+lycee_df5 = lycee_df5.to_csv('./Sélection des variables/df_inter/lycee_df5', sep=";")
 
