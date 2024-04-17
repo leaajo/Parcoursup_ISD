@@ -50,9 +50,9 @@ regions.opts(title='Taux de réussite brut au bac session 2023 par département'
 
 from bokeh.plotting import show
 # Convertir GeoViews en plot Bokeh
-#plot = gv.render(regions, backend='bokeh')
+plot = gv.render(regions, backend='bokeh')
 
-#show(plot)
+show(plot)
 
 # Nombre d'élèves venant de la meme academie (2023):
 lycees_resultats2 = pd.read_csv('./all_df/fr-esr-parcoursup_2023.csv', sep=';')

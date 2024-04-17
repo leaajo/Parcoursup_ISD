@@ -57,6 +57,7 @@ carte_acc2023 = carte_acc2023.drop(columns = ['nom_y', 'geometry_y'])
 
 regions_2 = gv.Polygons(carte_acc2023, vdims=['nom', 'code_du_departement', 'departement', 'academie', 'acc_aca_orig', 'acc_term'])
 regions_2.opts(width=600, height=600, toolbar='above', color=dim('acc_aca_orig'), colorbar=True, tools=['hover'], aspect='equal')
-
+regions_2.opts(title='Nombre d\'élèves venant de la même académie (2023) par département')
+               
 plot = gv.render(regions_2, backend='bokeh')    
 show(plot)

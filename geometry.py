@@ -1,7 +1,7 @@
 # Cette fonction sert à transformer un dataframe pandas en un geodataframe geopandas. Cela nous permet de visualiser les données sur une carte. (plus tard)
 
 def carte(annee=int) :
-    import traitement as trt 
+    import dataviz.traitement as trt 
     import geopandas as gpd
     
     df = trt.traitement_des_donnees(annee)
