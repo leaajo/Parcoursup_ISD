@@ -39,7 +39,7 @@ def Permutation(X_no_test, y_no_test, rf_model, index) :
 
 
 #On garde tous les individus avec des valeurs non vides
-lycee_df5 = pd.read_csv("Sélection des données\lycee_df5", sep=";")
+lycee_df5 = pd.read_csv('./Sélection des variables/df_inter/lycee_df5', sep=";")
 lycee_df = lycee_df5.copy()
 var_y = ["acc_term", "acc_term_f",
          "acc_aca_orig"]
