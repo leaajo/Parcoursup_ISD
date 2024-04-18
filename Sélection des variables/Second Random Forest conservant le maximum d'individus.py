@@ -51,7 +51,7 @@ y_lycee = lycee_df["acc_term"]
 y_lycee_f = lycee_df["acc_term_f"]
 y_lycee_acad = lycee_df["acc_aca_orig"]
 X_complet = lycee_df.copy()
-lycee_RF = X_complet.to_csv('lycee_RF', sep=";") #Avoir le fichier avant sa normalisation
+lycee_RF = X_complet.to_csv('./Sélection des variables/df_inter/lycee_RF', sep=";") #Avoir le fichier avant sa normalisation
 
 for col in ["acc_term", "acc_term_f",
             "acc_aca_orig", "acc_aca_orig_idf"] :

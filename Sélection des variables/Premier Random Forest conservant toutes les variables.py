@@ -39,7 +39,7 @@ def Permutation(X_no_test, y_no_test, rf_model, index) :
         print(importance_var_lycee_complet)
 
 #On retire les individus avec des infos manquantes pour ce premier Random Forest
-lycee_df = pd.read_csv(r"Sélection des données\lycee_df5", sep=";")
+lycee_df = pd.read_csv('./Sélection des données/df_inter/lycee_df5', sep=";")
 lycee_df = lycee_df.dropna(axis=0, subset=["Ecart-type de l'IPS voie PRO"])
 
 #On remplace les nan qui perturbent le code

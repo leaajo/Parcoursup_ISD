@@ -37,10 +37,11 @@ def Permutation(X_no_test, y_no_test, rf_model, index) :
     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
         print(importance_var_lycee_complet)
 
-X_complet = pd.read_csv("lycee_RF", sep=";")
+X_complet = pd.read_csv('./Sélection des variables/df_inter/lycee_RF', sep=";")
+
 y_lycee_acad = X_complet["acc_aca_orig"]
 
-for col in ["acc_term", "acc_term_f",
+for col in ['acc_term', "acc_term_f",
             "acc_aca_orig", "acc_aca_orig_idf"] :
             X_complet.pop(col)
 X_complet.pop("Indices")
