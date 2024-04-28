@@ -61,8 +61,8 @@ scaler = StandardScaler()
 X_n = scaler.fit_transform(X)
 
 param_grid = {
-    'n_estimators': [50, 100],
-    'max_depth': [None, 20],
+    'n_estimators': list(range(5, 200, 5)),
+    'max_depth': list(range(5, 50, 2)),
 }
 index = X.columns.to_list()
 

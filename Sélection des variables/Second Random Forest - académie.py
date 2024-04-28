@@ -50,8 +50,8 @@ X_complet_n = scaler.fit_transform(X_complet)
 
 
 param_grid = {
-    'n_estimators': [150, 100],
-    'max_depth': [None, 20],
+    'n_estimators': list(range(1, 150, 3)),
+    'max_depth': list(range(1,100,2)),
 }
 index = X_complet.columns.to_list()
 

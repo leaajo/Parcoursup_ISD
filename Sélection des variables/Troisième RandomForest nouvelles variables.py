@@ -60,8 +60,8 @@ X_complet_n = scaler.fit_transform(X_langues)
 
 
 param_grid = {
-    'n_estimators': [150, 100],
-    'max_depth': [None, 20],
+    'n_estimators': list(range(5, 100, 2)),
+    'max_depth': list(range(1, 50, 2))
 }
 index = X_langues.columns.to_list()
 

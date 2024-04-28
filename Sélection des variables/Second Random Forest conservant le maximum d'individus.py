@@ -62,8 +62,8 @@ X_complet_n = scaler.fit_transform(X_complet)
 
 
 param_grid = {
-    'n_estimators': [150, 100],
-    'max_depth': [None, 20],
+    'n_estimators': list(range(5, 100, 2)),
+    'max_depth': list(range(1, 50, 2))
 }
 index = X_complet.columns.to_list()
 
@@ -76,6 +76,7 @@ y_predict = rf_model.predict(X_test)
 plt.plot(X_test[:,17], y_test, 'o', color="blue")
 plt.plot(X_test[:,17], y_predict, '.', color="red")
 plt.title("Données prédites et réelles selon les effectifs des admis bacheliers technologiques")
+plt.ylabel('Nombre d élèves restant dans le lycée')
 plt.ylabel('Nombre d élèves restant dans le lycée')
 plt.xlabel('Réussite au bac technologique')
 plt.legend()
