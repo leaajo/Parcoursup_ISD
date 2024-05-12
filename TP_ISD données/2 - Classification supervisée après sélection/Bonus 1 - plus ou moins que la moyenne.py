@@ -73,7 +73,7 @@ X_train, X_val, y_train, y_val = train_test_split(X_no_test, y_no_test, test_siz
 #Méthode des k plus proches voisins (Train-test-split)
 Scores = []
 
-for k in range(1, int(X_train.shape[0])):
+for k in range(1, 500):
   neigh = KNeighborsClassifier(n_neighbors=k)
   neigh.fit(X_train, y_train)
   Scores.append(neigh.score(X_val, y_val))
@@ -83,7 +83,7 @@ k_opt_val = np.argmax(Scores) + 1
 print(f"Meilleur k validation  : {k_opt_val}")
 
 #Affichage de l'erreur selon le nombre de voisins (Train-test split)
-plt.plot(range(1, int(X_train.shape[0])), Scores, label="Erreur de validation (train-test split)")
+plt.plot(range(1, 500), Scores, label="Erreur de validation (train-test split)")
 plt.xlabel("Nombre de voisins k", fontsize=12)
 plt.ylabel("Scores", fontsize=12)
 plt.title("Évaluation du meilleur hyperparamètre k pour le modèle", fontsize=12)
@@ -94,7 +94,6 @@ plt.show()
 neigh = KNeighborsClassifier(n_neighbors=k_opt_val)
 neigh.fit(X_train, y_train)
 model_evaluation(neigh, X_test, y_test)
-print(f"Exactitude pour knn (train-test-split) : {neigh.score(X_test, y_test)}") 
 
 
 
@@ -104,7 +103,7 @@ cv = KFold(n_splits=5)
 
 Scores2 = []
 
-for k in range(1, int(X_train.shape[0])):
+for k in range(1, 500):
   neigh = KNeighborsClassifier(n_neighbors=k)
   neigh.fit(X_train, y_train)
   Scores2.append(cross_val_score(neigh, X, y, cv=cv).mean())
@@ -114,7 +113,7 @@ k_opt_val2 = np.argmax(Scores) + 1
 print(f"Meilleur k validation : {k_opt_val2}")
 
 #Affichage du score selon le nombre de voisins
-plt.plot(range(1, int(X_train.shape[0])), Scores2, label="Erreur de validation (train-test split)")
+plt.plot(range(1, 500), Scores2, label="Erreur de validation (train-test split)")
 plt.xlabel("Nombre de voisins k", fontsize=12)
 plt.ylabel("Scores", fontsize=12)
 plt.title("Évaluation du meilleur hyperparamètre k pour le modèle", fontsize=12)
@@ -125,7 +124,6 @@ plt.show()
 neigh2 = KNeighborsClassifier(n_neighbors=k_opt_val2)
 neigh2.fit(X_no_test, y_no_test)
 model_evaluation(neigh2, X_test, y_test)
-print(f"Exactitude pour knn (validation croisée) : {neigh2.score(X_test, y_test)}") 
 
 
 
@@ -144,4 +142,25 @@ print("Meilleurs paramètres : " + str(best_params_forest))
 rf_model = RandomForestClassifier(**best_params_forest)
 rf_model.fit(X_no_test, y_no_test)
 model_evaluation(rf_model, X_test, y_test)
-print(f"Exactitude pour RandomForest : {rf_model.score(X_test, y_test)}") 
+
+#Résultats
+#Pour l'apprentissage supervisé par k plus proches voisins (par train-test-split), le meilleur nombre de voisins est 11.
+#Outre la matrice de confusion disponible dans les images, on a les performances suivantes :
+#Exactitude :  85.79%
+#Précision :  87.73%
+#Rappel :  76.38%
+
+#En déterminant le nombre de voisins par validation croisée, ce dernier reste fixé à 11. On obtient une matrice un peu différente, avec les scores suivants :
+#Exactitude :  84.58%
+#Précision :  85.93%
+#Rappel :  75.08%
+
+#Enfin, en passant par une forêt aléatoire, on trouve pour meilleurs paramètres {'max_depth': 20, 'n_estimators': 100}.
+#On obtient de plus des scores un peu plus élevés (peu importe celui considéré) : 
+#Exactitude :  89.95%
+#Précision :  89.26%
+#Rappel :  86.08%
+
+#Au final, ce modèle en lui-même fonctionne assez bien. 
+#Cette approche de classification peut être intéressante à considérer si l'on souhaite se pencher davantage sur la comparaison entre lycées, plutôt que sur les nombres bruts.
+#Il serait possible d'effectuer des modèles similaires en prenant la médiane au lieu de la moyenne, ou encore le premier et le troisième quartiles. 
