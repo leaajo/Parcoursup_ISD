@@ -38,7 +38,7 @@ X_train, X_val, y_train, y_val = train_test_split(X_no_test, y_no_test, test_siz
 
 Scores = []
 
-for k in range(1, int(X_train.shape[0])):
+for k in range(1, 500):
   neigh = KNeighborsRegressor(n_neighbors=k)
   neigh.fit(X_train, y_train)
   Scores.append(neigh.score(X_val, y_val))
@@ -48,7 +48,7 @@ k_opt_val = np.argmax(Scores) + 1
 print(f"Meilleur k validation par Train-Validation-Test Split : {k_opt_val}")
 
 #Affichage de la performance du modèle selon le nombre de voisins (Train-Validation-Test Split)
-plt.plot(range(1, int(X_train.shape[0])), Scores, label="Erreur de validation (train-test split)")
+plt.plot(range(1, 500), Scores, label="Erreur de validation (train-test split)")
 plt.xlabel("Nombre de voisins k", fontsize=12)
 plt.ylabel("R2", fontsize=12)
 plt.title("Évaluation du meilleur hyperparamètre k pour le modèle", fontsize=12)
@@ -65,7 +65,7 @@ print("Score (Train-Validation-Test Split) : " + str(opt_score))
 n_splits = 5
 cv = KFold(n_splits=5)
 Scores = []
-for k in range(1, int(X_train.shape[0])):
+for k in range(1, 500):
   neigh = KNeighborsRegressor(n_neighbors=k)
   neigh.fit(X_train, y_train)
   Scores.append(cross_val_score(neigh, X, y, cv=cv).mean())
@@ -73,7 +73,7 @@ k_opt_val2 = np.argmax(Scores) + 1
 print(f"Meilleur k validation par validation croisée : {k_opt_val2}")
 
 #Affichage de la performance du modèle selon le nombre de voisins
-plt.plot(range(1, int(X_train.shape[0])), Scores, label="Erreur de validation (Validation croisée)")
+plt.plot(range(1, 500), Scores, label="Erreur de validation (Validation croisée)")
 plt.xlabel("Nombre de voisins k", fontsize=12)
 plt.ylabel("R2", fontsize=12)
 plt.title("Évaluation du meilleur hyperparamètre k pour le modèle", fontsize=12)
