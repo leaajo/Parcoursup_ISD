@@ -87,8 +87,8 @@ opt_score = knn.score(X_test, y_test)
 print("Score (Validation croisée) : " + str(opt_score))
 
 #Résultats :
-#Pour le Train-Validation-Test-Split, le meilleur nombre de voisins est de 17.
-#Le meilleur score R2 est 0.12409509440647426.
+#Pour le Train-Validation-Test-Split, le meilleur nombre de voisins est de 20.
+#Le meilleur score R2 est 0.32352820439966057.
 #Pour la Validation croisée (avec une séparation en 5 groupes), le meilleur nombre de voisins est de 39.
-#Le meilleur score R2 est 0.1251921638519844.
+#Le meilleur score R2 est 0.32566173551482236.
 #La méthode des k plus proches voisins ne permet pas d'obtenir de meilleurs scores que la forêt aléatoire.
